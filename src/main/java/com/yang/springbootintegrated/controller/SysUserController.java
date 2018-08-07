@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yang.springbootintegrated.mapper.SysUserMapper;
 import com.yang.springbootintegrated.pojo.SysUser;
+import com.yang.springbootintegrated.service.SysUserService;
+import com.yang.springbootintegrated.utils.SnowflakeIdWorker;
 
 /**
  * @Description:UserController
@@ -20,25 +20,22 @@ import com.yang.springbootintegrated.pojo.SysUser;
  * @time:2018年8月5日 下午10:20:55
  */
 @RestController
-@RequestMapping("/user")
-public class UserController {
-//	@Value("${yang.test}")
-	@Value("${spring.datasource.url}")
-	private String yang;
+@RequestMapping("/sysuser")
+public class SysUserController {
 
 	@Autowired
-	private SysUserMapper sysUserMapper;
+	private SysUserService sysUserService;
 
 	@RequestMapping("/hello")
 	public Map<String, Object> hello() {
 		Map<String, Object> result = new HashMap<String, Object>();
 		SysUser sysUser = new SysUser();
-		sysUser.setSysUserId(String.valueOf(System.currentTimeMillis()));
+		sysUser.setSysUserId(SnowflakeIdWorker.nextIdString());
 		sysUser.setSysUserName("yanglin");
 		sysUser.setSysUserAge(23);
-		sysUserMapper.insert(sysUser);
+		sysUserService.insert(sysUser);
 		result.put("sysUser", sysUser);
-		result.put("name", "杨林热部署hahah" + yang);
+		result.put("name", "杨林热部署hahah");
 		result.put("age", 23);
 		return result;
 	}
