@@ -1,7 +1,8 @@
-/**
- * 
- */
 package com.yang.springbootintegrated.service.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,12 @@ public class SysUserServiceImpl implements SysUserService {
 
 	@Override
 	public void insert(SysUser sysUser) {
-		sysUserMapper.insert(sysUser);
+		Map<String, Object> cond = new HashMap<String, Object>();
+		cond.put("sys_user_name", "yanglin");
+		List<Map<String, Object>> list = sysUserMapper.selectCustom(cond);
+		Integer i = sysUserMapper.insert(sysUser);
+		System.out.println(list);
+		System.out.println(i);
 	}
 
 }
