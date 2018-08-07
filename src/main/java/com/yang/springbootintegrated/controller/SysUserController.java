@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yang.springbootintegrated.pojo.SysUser;
@@ -26,7 +27,7 @@ public class SysUserController {
 	@Autowired
 	private SysUserService sysUserService;
 
-	@RequestMapping("/hello")
+	@RequestMapping(value = "/hello", method = RequestMethod.POST)
 	public Map<String, Object> hello() {
 		Map<String, Object> result = new HashMap<String, Object>();
 		SysUser sysUser = new SysUser();
