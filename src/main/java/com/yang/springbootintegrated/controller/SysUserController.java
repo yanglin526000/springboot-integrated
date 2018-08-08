@@ -45,6 +45,7 @@ public class SysUserController {
 	 * @param name
 	 * @param age
 	 * @return
+	 * @throws Exception
 	 */
 	@ApiOperation(value = "新增用户信息", notes = "根据url的name和age来新增用户信息", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiImplicitParams({
@@ -53,7 +54,7 @@ public class SysUserController {
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "") })
 	@RequestMapping(value = "/addsysuser", method = RequestMethod.POST)
 	public Map<String, Object> addSysUser(@RequestParam(value = "name") String name,
-			@RequestParam(value = "age") Integer age) {
+			@RequestParam(value = "age") Integer age) throws Exception {
 		Map<String, Object> result = new HashMap<String, Object>();
 		SysUser sysUser = new SysUser();
 		sysUser.setSysUserId(SnowflakeIdWorker.nextIdString());
@@ -65,6 +66,19 @@ public class SysUserController {
 		result.put("age", 23);
 		return ResultMap.state(result, HttpStateUtil.OK);
 	}
+
+	/**
+	 * url异常测试
+	 * 
+	 * @return
+	 */
+	@ApiOperation(value = "url异常测试", notes = "url异常测试", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiImplicitParams({})
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "") })
+	@RequestMapping(value = "/errorurl", method = RequestMethod.POST)
+	public Map<String, Object> errorUrl() {
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("error", 1 / 0);
 
 		return result;
 	}

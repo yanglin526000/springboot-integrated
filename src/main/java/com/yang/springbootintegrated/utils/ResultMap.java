@@ -20,17 +20,29 @@ public class ResultMap {
 	 * @param reslut
 	 * @param state
 	 * @return
+	 * @throws Exception
 	 */
-	public static Map<String, Object> state(Map<String, Object> result, int httpState) {
+	@SuppressWarnings("unchecked")
+	public static Map<String, Object> state(Object result, int httpState) throws Exception {
+		Map<String, Object> resultHandle = null;
 		if (result == null) {
-			result = new HashMap<String, Object>();
+			resultHandle = new HashMap<String, Object>();
+			resultHandle.put("data", null);
+		} else {
+			if (result instanceof Map) {
+				resultHandle = (Map<String, Object>) result;
+			} else {
+				resultHandle = new HashMap<String, Object>();
+				resultHandle.put("data", result);
+			}
 		}
+
 		HttpStatus hs = HttpStatus.resolve(httpState);
 		if (hs == null) {
 			throw new IllegalArgumentException("No matching constant for [" + httpState + "]");
 		}
-		result.put("code", hs.value());
-		result.put("message", hs.getReasonPhrase());
-		return result;
+		resultHandle.put("code", hs.value());
+		resultHandle.put("message", hs.getReasonPhrase());
+		return resultHandle;
 	}
 }
