@@ -5,6 +5,7 @@ package com.yang.springbootintegrated.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yang.springbootintegrated.pojo.SysUser;
 import com.yang.springbootintegrated.service.SysUserService;
+import com.yang.springbootintegrated.task.async.TestAsyncTask;
 import com.yang.springbootintegrated.utils.HttpStateUtil;
 import com.yang.springbootintegrated.utils.ResultMap;
 import com.yang.springbootintegrated.utils.SnowflakeIdWorker;
@@ -38,6 +40,9 @@ public class SysUserController {
 
 	@Autowired
 	private SysUserService sysUserService;
+
+	@Autowired
+	private TestAsyncTask testAsyncTask;
 
 	/**
 	 * 新增用户信息
@@ -65,6 +70,38 @@ public class SysUserController {
 		result.put("name", "杨林热部署");
 		result.put("age", 23);
 		return ResultMap.state(result, HttpStateUtil.OK);
+	}
+
+	/**
+	 * 异步任务测试
+	 * 
+	 * @return
+	 * @throws InterruptedException
+	 */
+	@ApiOperation(value = "异步任务测试", notes = "异步任务测试", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiImplicitParams({})
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "") })
+	@RequestMapping(value = "/async", method = RequestMethod.POST)
+	public Map<String, Object> testAsyncTask() throws InterruptedException {
+		Map<String, Object> result = new HashMap<String, Object>();
+		long begin = System.currentTimeMillis();
+
+		Future<String> task4 = testAsyncTask.task4();
+		Future<String> task5 = testAsyncTask.task5();
+		Future<String> task6 = testAsyncTask.task6();
+
+		// 如果都执行往就可以跳出循环,isDone方法如果此任务完成，true
+		for (;;) {
+			if (task4.isDone() && task5.isDone() && task6.isDone()) {
+				break;
+			}
+		}
+
+		long end = System.currentTimeMillis();
+		long total = end - begin;
+		System.out.println("执行总耗时=" + total);
+		result.put("total", total);
+		return result;
 	}
 
 	/**

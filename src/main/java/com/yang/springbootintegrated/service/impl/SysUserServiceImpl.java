@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yang.springbootintegrated.mapper.SysUserMapper;
 import com.yang.springbootintegrated.pojo.SysUser;
@@ -23,6 +25,7 @@ public class SysUserServiceImpl implements SysUserService {
 	private SysUserMapper sysUserMapper;
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void insert(SysUser sysUser) {
 		Map<String, Object> cond = new HashMap<String, Object>();
 		cond.put("sys_user_name", "yanglin");

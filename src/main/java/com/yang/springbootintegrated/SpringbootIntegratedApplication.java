@@ -7,6 +7,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
+//@EnableScheduling
+//@EnableAsync
 public class SpringbootIntegratedApplication {
 
 	public static void main(String[] args) {

@@ -3,13 +3,14 @@ package com.yang.springbootintegrated.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import com.yang.springbootintegrated.pojo.SysUser;
-import tk.mybatis.mapper.common.Mapper;
+import com.yang.springbootintegrated.utils.MyMapper;
 
-@org.apache.ibatis.annotations.Mapper
-public interface SysUserMapper extends Mapper<SysUser> {
+@Mapper
+public interface SysUserMapper extends MyMapper<SysUser> {
 
 	/**
 	 * 自定义查询
