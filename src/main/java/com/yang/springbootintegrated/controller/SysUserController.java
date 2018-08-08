@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yang.springbootintegrated.pojo.SysUser;
 import com.yang.springbootintegrated.service.SysUserService;
+import com.yang.springbootintegrated.utils.HttpStateUtil;
+import com.yang.springbootintegrated.utils.ResultMap;
 import com.yang.springbootintegrated.utils.SnowflakeIdWorker;
 
 import io.swagger.annotations.Api;
@@ -61,6 +63,9 @@ public class SysUserController {
 		result.put("sysUser", sysUser);
 		result.put("name", "杨林热部署");
 		result.put("age", 23);
+		return ResultMap.state(result, HttpStateUtil.OK);
+	}
+
 		return result;
 	}
 
