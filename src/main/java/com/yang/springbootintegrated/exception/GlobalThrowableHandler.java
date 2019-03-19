@@ -23,16 +23,13 @@ import java.util.Map;
 public class GlobalThrowableHandler {
 
 	/**
-	 * <p>
-	 * 异常具体处理过程<br>
-	 * </p>
-	 * 
+	 * @description 异常具体处理过程
 	 * @param t       异常对象
 	 * @param request 请求域对象
 	 * @return java.util.Map<String, Object>
 	 * 
-	 * @author:yanglin
-	 * @time:2019年3月1日 下午3:15:01
+	 * @author yanglin
+	 * @time 2019-03-19 17:50:51.879 +0800
 	 */
 	@ExceptionHandler(value = Throwable.class)
 	private Map<String, Object> handleThrowable(Throwable t, HttpServletRequest request) {
