@@ -1,68 +1,97 @@
 package com.yang.springbootintegrated.config;
 
-import java.util.ArrayList;
+import static com.google.common.collect.Lists.newArrayList;
+
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.ResponseMessageBuilder;
-import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ResponseMessage;
+import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * Swagger2配置信息
- * 
- * @Description:Swagger2
- * @author:yanglin
- * @time:2018年8月7日 下午10:57:44
+ * @description Swagger2配置文件
+ * @classname Swagger2
+ *
+ * @author yanglin
+ * @time 2019-03-21 16:55:07.190 +0800
+ * @version v1.0
  */
 @Configuration
+@EnableSwagger2
 public class Swagger2 {
-	
-	// 自定义异常信息
-	private static final List<ResponseMessage> responseMessages = new ArrayList<ResponseMessage>() {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
 
-		{
-			add(new ResponseMessageBuilder().code(200).message("成功").build());
-			add(new ResponseMessageBuilder().code(400).message("请求参数错误").responseModel(new ModelRef("Error")).build());
-			add(new ResponseMessageBuilder().code(401).message("权限认证失败").responseModel(new ModelRef("Error")).build());
-			add(new ResponseMessageBuilder().code(403).message("请求资源不可用").responseModel(new ModelRef("Error")).build());
-			add(new ResponseMessageBuilder().code(404).message("请求资源不存在").responseModel(new ModelRef("Error")).build());
-			add(new ResponseMessageBuilder().code(409).message("请求资源冲突").responseModel(new ModelRef("Error")).build());
-			add(new ResponseMessageBuilder().code(415).message("请求格式错误").responseModel(new ModelRef("Error")).build());
-			add(new ResponseMessageBuilder().code(423).message("请求资源被锁定").responseModel(new ModelRef("Error")).build());
-			add(new ResponseMessageBuilder().code(500).message("服务器内部错误").responseModel(new ModelRef("Error")).build());
-			add(new ResponseMessageBuilder().code(501).message("请求方法不存在").responseModel(new ModelRef("Error")).build());
-			add(new ResponseMessageBuilder().code(503).message("服务暂时不可用").responseModel(new ModelRef("Error")).build());
-			add(new ResponseMessageBuilder().code(-1).message("未知异常").responseModel(new ModelRef("Error")).build());
-		}
-	};
-
+	/**
+	 * @description 创建访问路径
+	 * @return Docket
+	 * 
+	 * @author yanglin
+	 * @time 2019-03-21 16:55:21.290 +0800
+	 */
 	@Bean
 	public Docket createRestApi() {
 		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
-				// 扫描的API包
-				.apis(RequestHandlerSelectors.basePackage("com.yang.springbootintegrated.controller"))
-				.paths(PathSelectors.any()).build().globalResponseMessage(RequestMethod.GET, responseMessages)
-				.globalResponseMessage(RequestMethod.POST, responseMessages)
-				.globalResponseMessage(RequestMethod.PUT, responseMessages)
-				.globalResponseMessage(RequestMethod.DELETE, responseMessages);
+				.apis(RequestHandlerSelectors.basePackage("com.wonders.pathcloudserver.controller"))
+				.paths(PathSelectors.regex("^(?!auth).*$")).build().securitySchemes(securitySchemes())
+				.securityContexts(securityContexts());
 	}
 
+	/**
+	 * @description Swagger2主信息
+	 * @return ApiInfo
+	 * 
+	 * @author yanglin
+	 * @time 2019-03-21 16:55:49.338 +0800
+	 */
 	private ApiInfo apiInfo() {
-		return new ApiInfoBuilder().title("Springboot利用Swagger2构建API文档").description("用于生成文档以及测试接口")
-				.termsOfServiceUrl("http://localhost:8080").version("1.0").build();
+		return new ApiInfoBuilder().title("path-cloud-server").description("springboot利用swagger构建api文档")
+				.termsOfServiceUrl("").version("1.0").build();
+	}
+
+	/**
+	 * @description 配置了哪些操作与SecuritySchemes相关联的配置
+	 * @return List<ApiKey>
+	 * 
+	 * @author yanglin
+	 * @time 2019-03-21 16:55:58.426 +0800
+	 */
+	private List<ApiKey> securitySchemes() {
+		return newArrayList(new ApiKey("token", "token", "header"));
+	}
+
+	/**
+	 * @description 配置api操作（通过正则表达式模式）和HTTP方法将安全上下文应用于apis
+	 * @return List<SecurityContext>
+	 * 
+	 * @author yanglin
+	 * @time 2019-03-21 16:56:14.905 +0800
+	 */
+	private List<SecurityContext> securityContexts() {
+		return newArrayList(SecurityContext.builder().securityReferences(defaultAuth())
+				.forPaths(PathSelectors.regex("^(?!auth).*$")).build());
+	}
+
+	/**
+	 * @description 默认的认证信息
+	 * @return List<SecurityReference>
+	 * 
+	 * @author yanglin
+	 * @time 2019-03-21 16:56:41.595 +0800
+	 */
+	private List<SecurityReference> defaultAuth() {
+		AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+		AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+		authorizationScopes[0] = authorizationScope;
+		return newArrayList(new SecurityReference("token", authorizationScopes));
 	}
 }
