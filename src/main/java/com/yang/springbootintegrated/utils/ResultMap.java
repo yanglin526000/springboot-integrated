@@ -6,69 +6,98 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 
 /**
- * @description 自定义返回结果结构体
- * @classname ResultMap
- *
+ * <p>
+ * 描述: 自定义返回结果结构体
+ * </p>
+ * <p>
+ * 创建时间: 2019-11-15 09:21
+ * </p>
+ * 
  * @author yanglin
- * @time 2019-03-19 17:48:43.638 +0800
- * @version v1.0
  */
 public final class ResultMap {
 
-	private ResultMap() {
-		super();
-	}
+    private ResultMap() {
+        super();
+    }
 
-	/**
-	 * <p>
-	 * 根据状态值封装Map结果信息<br>
-	 * </p>
-	 * 
-	 * @param result    需要封装状态码的信息
-	 * @param httpState 指定状态码
-	 * @return resultHandle
-	 * 
-	 * @author:yanglin
-	 * @time:2019年1月9日 上午10:39:04
-	 */
-	@SuppressWarnings("unchecked")
-	public static Map<String, Object> state(Object result, int httpState) {
-		Map<String, Object> resultHandle = null;
-		if (result == null) {
-			resultHandle = new HashMap<String, Object>();
-			resultHandle.put("data", null);
-		} else {
-			if (result instanceof Map) {
-				resultHandle = (Map<String, Object>) result;
-			} else {
-				resultHandle = new HashMap<String, Object>();
-				resultHandle.put("data", result);
-			}
-		}
+    /**
+     * <p>
+     * 描述: 根据状态值封装Map结果信息
+     * </p>
+     * <p>
+     * 创建时间: 2019-11-15 09:21
+     * </p>
+     * 
+     * @param result     需要封装状态码的信息
+     * @param httpStatus 指定状态
+     * @return Map<String, Object>
+     * 
+     * @author yanglin
+     */
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> state(Object result, HttpStatus httpStatus) {
+        Map<String, Object> resultHandle = null;
+        if (result == null) {
+            resultHandle = new HashMap<String, Object>();
+            resultHandle.put("data", null);
+        } else {
+            if (result instanceof Map) {
+                resultHandle = (Map<String, Object>) result;
+            } else {
+                resultHandle = new HashMap<String, Object>();
+                resultHandle.put("data", result);
+            }
+        }
 
-		HttpStatus hs = HttpStatus.resolve(httpState);
-		resultHandle.put("code", hs.value());
-		resultHandle.put("message", hs.getReasonPhrase());
-		return resultHandle;
-	}
+        resultHandle.put("code", httpStatus.value());
+        resultHandle.put("message", httpStatus.getReasonPhrase());
+        return resultHandle;
+    }
 
-	/**
-	 * <p>
-	 * 覆盖返回信息<br>
-	 * </p>
-	 * 
-	 * @param result    需要封装状态码的信息
-	 * @param httpState 指定状态码
-	 * @param message   自定义状态码提示信息
-	 * @return r
-	 * 
-	 * @author:yanglin
-	 * @time:2019年1月9日 上午10:41:57
-	 */
-	public static Map<String, Object> state(Object result, int httpState, String message) {
-		Map<String, Object> r = state(result, httpState);
-		r.put("message", message);
-		return r;
-	}
+    /**
+     * <p>
+     * 描述: 覆盖返回信息
+     * </p>
+     * <p>
+     * 创建时间: 2019-11-15 09:22
+     * </p>
+     * 
+     * @param result     需要封装状态码的信息
+     * @param httpStatus 指定状态码
+     * @param message    自定义状态码提示信息
+     * @return Map
+     * 
+     * @author yanglin
+     */
+    public static Map<String, Object> state(Object result, HttpStatus httpStatus, String message) {
+        Map<String, Object> r = state(result, httpStatus);
+        r.put("message", message);
+        return r;
+    }
 
+    /**
+     * <p>
+     * 描述: 自定义分页信息
+     * </p>
+     * <p>
+     * 创建时间: 2019-11-15 09:23
+     * </p>
+     * 
+     * @param result 设置 result
+     * @param total  数据总数
+     * @param page   当前页
+     * @param size   每页显示条数
+     * @return Map<String, Object>
+     * 
+     * @author yanglin
+     */
+    public static Map<String, Object> pageInfo(Map<String, Object> result, Long total, Integer page, Integer size) {
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("total", total);
+        pageInfo.put("page", page);
+        pageInfo.put("size", size);
+        result.put("pageInfo", pageInfo);
+        return result;
+    }
 }
