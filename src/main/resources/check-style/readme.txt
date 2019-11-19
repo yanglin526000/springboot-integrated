@@ -1,0 +1,1 @@
+CheckStyle在git commit前自动检查，只需要将当前目录下的pre-commit文件复制到./.git/hooks/文件夹中，在提交时候就会自动检查代码格式
