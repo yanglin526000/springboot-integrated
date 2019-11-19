@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -69,7 +70,7 @@ public class SysUserController {
 		result.put("sysUser", sysUser);
 		result.put("name", "杨林热部署");
 		result.put("age", 23);
-		return ResultMap.state(result, HttpStateUtil.OK);
+		return ResultMap.state(result, HttpStatus.OK);
 	}
 
 	/**

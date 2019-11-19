@@ -1,5 +1,6 @@
 package com.yang.springbootintegrated.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -37,7 +38,7 @@ public class GlobalThrowableHandler {
 		t.printStackTrace();
 		result.put("errorMessage", t.getMessage());
 		result.put("errorURL", request.getRequestURL());
-		ResultMap.state(result, HttpStateUtil.INTERNAL_SERVER_ERROR);
+		ResultMap.state(result, HttpStatus.INTERNAL_SERVER_ERROR);
 		return result;
 	}
 }
