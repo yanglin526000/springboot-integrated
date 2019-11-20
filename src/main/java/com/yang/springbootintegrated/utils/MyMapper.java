@@ -31,10 +31,11 @@ import tk.mybatis.mapper.common.MySqlMapper;
  * 继承自己的MyMapper 特别注意，该接口不能被扫描到，否则会出错
  * 
  * @Description:MyMapper
+ * @param <T>
  * @author:yanglin
  * @time:2018年8月8日 下午10:33:02
  */
 public interface MyMapper<T> extends Mapper<T>, MySqlMapper<T> {
-	// TODO
-	// FIXME 特别注意，该接口不能被扫描到，否则会出错
+    // TODO
+    // FIXME 特别注意，该接口不能被扫描到，否则会出错
 }
