@@ -1,6 +1,9 @@
 package com.yang.springbootintegrated.task.async;
 
 import java.util.concurrent.Future;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
@@ -15,28 +18,86 @@ import org.springframework.stereotype.Component;
 @Component
 @Async
 public class TestAsyncTask {
-	// 获取异步结果
-	public Future<String> task4() throws InterruptedException {
-		long begin = System.currentTimeMillis();
-		Thread.sleep(2000L);
-		long end = System.currentTimeMillis();
-		System.out.println("任务4耗时=" + (end - begin));
-		return new AsyncResult<String>("任务4");
-	}
+    private static Logger logger = LoggerFactory.getLogger(TestAsyncTask.class);
 
-	public Future<String> task5() throws InterruptedException {
-		long begin = System.currentTimeMillis();
-		Thread.sleep(3000L);
-		long end = System.currentTimeMillis();
-		System.out.println("任务5耗时=" + (end - begin));
-		return new AsyncResult<String>("任务5");
-	}
+    /**
+     * <p>
+     * 描述: 获取异步结果
+     * </p>
+     * <p>
+     * 创建时间: 2019-11-20 11:08
+     * </p>
+     * <p>
+     * 更新时间: 2019-11-20 11:08
+     * </p>
+     * <p>
+     * 更新者: yanglin
+     * </p>
+     * 
+     * @return Future<String>
+     * @throws InterruptedException 中断异常
+     * 
+     * @author yanglin
+     */
+    public Future<String> task4() throws InterruptedException {
+        long begin = System.currentTimeMillis();
+        Thread.sleep(2000L);
+        long end = System.currentTimeMillis();
+        logger.info("任务4耗时=" + (end - begin));
+        return new AsyncResult<String>("任务4");
+    }
 
-	public Future<String> task6() throws InterruptedException {
-		long begin = System.currentTimeMillis();
-		Thread.sleep(1000L);
-		long end = System.currentTimeMillis();
-		System.out.println("任务6耗时=" + (end - begin));
-		return new AsyncResult<String>("任务6");
-	}
+    /**
+     * <p>
+     * 描述: task5
+     * </p>
+     * <p>
+     * 创建时间: 2019-11-20 11:09
+     * </p>
+     * <p>
+     * 更新时间: 2019-11-20 11:09
+     * </p>
+     * <p>
+     * 更新者: yanglin
+     * </p>
+     * 
+     * @return Future<String>
+     * @throws InterruptedException 中断异常
+     * 
+     * @author yanglin
+     */
+    public Future<String> task5() throws InterruptedException {
+        long begin = System.currentTimeMillis();
+        Thread.sleep(3000L);
+        long end = System.currentTimeMillis();
+        logger.info("任务5耗时=" + (end - begin));
+        return new AsyncResult<String>("任务5");
+    }
+
+    /**
+     * <p>
+     * 描述: task6
+     * </p>
+     * <p>
+     * 创建时间: 2019-11-20 11:10
+     * </p>
+     * <p>
+     * 更新时间: 2019-11-20 11:10
+     * </p>
+     * <p>
+     * 更新者: yanglin
+     * </p>
+     * 
+     * @return Future<String>
+     * @throws InterruptedException 中断异常
+     * 
+     * @author yanglin
+     */
+    public Future<String> task6() throws InterruptedException {
+        long begin = System.currentTimeMillis();
+        Thread.sleep(1000L);
+        long end = System.currentTimeMillis();
+        logger.info("任务6耗时=" + (end - begin));
+        return new AsyncResult<String>("任务6");
+    }
 }

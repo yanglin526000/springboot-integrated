@@ -1,6 +1,9 @@
 package com.yang.springbootintegrated.task.timed;
 
 import java.util.Date;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -13,24 +16,72 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TestTimedTask {
-	// 表示方法执行完成后5秒
-	@Scheduled(fixedDelay = 5000)
-	public void fixedDelayJob() throws InterruptedException {
-		System.out.println("fixedDelay 每隔5秒" + new Date());
-	}
+    private static Logger logger = LoggerFactory.getLogger(TestTimedTask.class);
 
-	// 表示每隔3秒
-	@Scheduled(fixedRate = 3000)
-	public void fixedRateJob() {
+    /**
+     * <p>
+     * 描述: 表示方法执行完成后5秒
+     * </p>
+     * <p>
+     * 创建时间: 2019-11-20 10:26
+     * </p>
+     * <p>
+     * 更新时间: 2019-11-20 10:26
+     * </p>
+     * <p>
+     * 更新者: yanglin
+     * </p>
+     * 
+     * @throws InterruptedException 中断异常
+     * 
+     * @author yanglin
+     */
+    @Scheduled(fixedDelay = 5000)
+    public void fixedDelayJob() throws InterruptedException {
+        logger.info("fixedDelay 每隔5秒" + new Date());
+    }
 
-		System.out.println("fixedRate 每隔3秒" + new Date());
-	}
+    /**
+     * <p>
+     * 描述: 表示每隔3秒
+     * </p>
+     * <p>
+     * 创建时间: 2019-11-20 10:27
+     * </p>
+     * <p>
+     * 更新时间: 2019-11-20 10:27
+     * </p>
+     * <p>
+     * 更新者: yanglin
+     * </p>
+     * 
+     * 
+     * @author yanglin
+     */
+    @Scheduled(fixedRate = 3000)
+    public void fixedRateJob() {
+        logger.info("fixedRate 每隔3秒" + new Date());
+    }
 
-	/**
-	 * 表示每天3时15分0秒执行---关于cron表达式写法，可以参考 http://cron.qqe2.com/
-	 */
-	@Scheduled(cron = "0 15 3 * * ?")
-	public void cronJob() {
-		System.out.println(new Date() + " ...>>cron....");
-	}
+    /**
+     * <p>
+     * 描述: 表示每天3时15分0秒执行---关于cron表达式写法，可以参考 http://cron.qqe2.com/
+     * </p>
+     * <p>
+     * 创建时间: 2019-11-20 10:28
+     * </p>
+     * <p>
+     * 更新时间: 2019-11-20 10:28
+     * </p>
+     * <p>
+     * 更新者: yanglin
+     * </p>
+     * 
+     * 
+     * @author yanglin
+     */
+    @Scheduled(cron = "0 15 3 * * ?")
+    public void cronJob() {
+        logger.info(new Date() + " ...>>cron....");
+    }
 }
