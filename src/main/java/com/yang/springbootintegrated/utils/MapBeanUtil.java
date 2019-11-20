@@ -4,8 +4,6 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.yang.springbootintegrated.pojo.SysUser;
-
 /**
  * Object和Map相互转换
  * 
@@ -16,57 +14,86 @@ import com.yang.springbootintegrated.pojo.SysUser;
 @SuppressWarnings("rawtypes")
 public class MapBeanUtil {
 
-	/**
-	 * javaBean 转 Map
-	 * 
-	 * @param object 需要转换的javabean
-	 * @return 转换结果map
-	 * @throws Exception
-	 */
-	public static Map<String, Object> beanToMap(Object object) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
+    /**
+     * <p>
+     * 描述: POJO对象转Map
+     * </p>
+     * <p>
+     * 创建时间: 2019-11-20 10:10
+     * </p>
+     * <p>
+     * 更新时间: 2019-11-20 10:10
+     * </p>
+     * <p>
+     * 更新者: yanglin
+     * </p>
+     * 
+     * @param object 转换对象
+     * @return Map<String, Object>
+     * @throws IllegalAccessException   非法访问异常
+     * @throws IllegalArgumentException 非法参数异常
+     * 
+     * @author yanglin
+     */
+    public static Map<String, Object> beanToMap(Object object) throws IllegalArgumentException, IllegalAccessException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        Class clazz = object.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            map.put(field.getName(), field.get(object));
+        }
+        return map;
+    }
 
-		Class cls = object.getClass();
-		Field[] fields = cls.getDeclaredFields();
-		for (Field field : fields) {
-			field.setAccessible(true);
-			map.put(field.getName(), field.get(object));
-		}
-		return map;
-	}
+    /**
+     * <p>
+     * 描述: Map转换为POJO对象
+     * </p>
+     * <p>
+     * 创建时间: 2019-11-20 10:07
+     * </p>
+     * <p>
+     * 更新时间: 2019-11-20 10:07
+     * </p>
+     * <p>
+     * 更新者: yanglin
+     * </p>
+     * 
+     * @param map   map参数
+     * @param clazz 类对象
+     * @return 通用对象
+     * @throws InstantiationException 实例化异常
+     * @throws IllegalAccessException 非法访问异常
+     * @throws NoSuchFieldException   无属性异常
+     * @throws SecurityException      安全异常
+     * 
+     * @author yanglin
+     */
+    public static Object mapToBean(Map<String, Object> map, Class clazz)
+            throws InstantiationException, IllegalAccessException, NoSuchFieldException, SecurityException {
+        Object object = clazz.newInstance();
+        for (String key : map.keySet()) {
+            Field temFiels = clazz.getDeclaredField(key);
+            temFiels.setAccessible(true);
+            temFiels.set(object, map.get(key));
+        }
+        return object;
+    }
 
-	/**
-	 *
-	 * @param map 需要转换的map
-	 * @param cls 目标javaBean的类对象
-	 * @return 目标类object
-	 * @throws Exception
-	 */
-	public static Object mapToBean(Map<String, Object> map, Class cls) throws Exception {
-		Object object = cls.newInstance();
-		for (String key : map.keySet()) {
-			Field temFiels = cls.getDeclaredField(key);
-			temFiels.setAccessible(true);
-			temFiels.set(object, map.get(key));
-		}
-		return object;
-	}
-
-	public static void main(String[] args) throws Exception {
-		SysUser sUser = new SysUser();
-		sUser.setSysUserId(SnowflakeIdWorker.nextIdString());
-		sUser.setSysUserName("yang");
-		sUser.setSysUserAge(23);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("sysUserId", "666");
-		map.put("sysUserName", "yanglin666");
-		map.put("sysUserAge", 666);
-		// map to object
-		SysUser sUserC = (SysUser) mapToBean(map, SysUser.class);
-		// object to map
-		Map<String, Object> mapC = beanToMap(sUser);
-		System.out.println(sUserC);
-		System.out.println(mapC);
-	}
+//    public static void main(String[] args) throws Exception {
+//        SysUser sUser = new SysUser();
+//        sUser.setSysUserId(SnowflakeIdWorker.nextIdString());
+//        sUser.setSysUserName("yang");
+//        sUser.setSysUserAge(23);
+//        Map<String, Object> map = new HashMap<String, Object>();
+//        map.put("sysUserId", "666");
+//        map.put("sysUserName", "yanglin666");
+//        map.put("sysUserAge", 666);
+//        // map to object
+//        SysUser sUserC = (SysUser) mapToBean(map, SysUser.class);
+//        // object to map
+//        Map<String, Object> mapC = beanToMap(sUser);
+//    }
 
 }
