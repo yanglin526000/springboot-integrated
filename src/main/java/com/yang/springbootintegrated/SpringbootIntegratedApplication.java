@@ -14,8 +14,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author yanglin
  */
 @SpringBootApplication
-//@EnableScheduling
-//@EnableAsync
 public class SpringbootIntegratedApplication {
 
     /**

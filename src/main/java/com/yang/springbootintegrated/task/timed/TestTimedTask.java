@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
  * @author:yanglin
  * @time:2018年8月8日 下午10:48:08
  */
+@EnableScheduling
 @Component
 public class TestTimedTask {
     private static Logger logger = LoggerFactory.getLogger(TestTimedTask.class);
