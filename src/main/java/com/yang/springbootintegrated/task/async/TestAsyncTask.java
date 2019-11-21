@@ -4,10 +4,7 @@ import java.util.concurrent.Future;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.stereotype.Component;
 
 /**
  * 测试异步任务业务类
@@ -16,9 +13,9 @@ import org.springframework.stereotype.Component;
  * @author:yanglin
  * @time:2018年8月8日 下午10:52:59
  */
-@EnableAsync
-@Component
-@Async
+//@EnableAsync
+//@Component
+//@Async
 public class TestAsyncTask {
     private static Logger logger = LoggerFactory.getLogger(TestAsyncTask.class);
 
