@@ -65,4 +65,50 @@ public class ParamUtil {
         }
     }
 
+    /**
+     * <p>
+     * 描述: 生成随机属性对象
+     * </p>
+     * <p>
+     * 创建时间: 2019-11-21 13:44
+     * </p>
+     * <p>
+     * 更新时间: 2019-11-21 13:44
+     * </p>
+     * <p>
+     * 更新者: yanglin
+     * </p>
+     * 
+     * @param o 对象值
+     * 
+     * @author yanglin
+     */
+    public static void randomObject(Object o) {
+        // 值为空，不做任何操作
+        if (o == null) {
+            return;
+        }
+        String r = String.valueOf(System.currentTimeMillis());
+        for (Field f : o.getClass().getDeclaredFields()) {
+            if (!"serialVersionUID".equals(f.getName())) {
+                for (int i = 0, len = r.length(); i < len - 1; i++) {
+                    try {
+                        f.setAccessible(true);
+                        Object fv = null;
+                        try {
+                            fv = f.getType().getDeclaredConstructor(String.class).newInstance(r.substring(len - i - 1));
+                        } catch (Exception e) {
+                            fv = f.getType().getDeclaredConstructor(long.class)
+                                    .newInstance(Long.parseLong(r.substring(len - i - 1)));
+                        }
+                        f.set(o, fv);
+                        break;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
 }
