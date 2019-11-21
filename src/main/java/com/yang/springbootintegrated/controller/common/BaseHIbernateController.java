@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * <p>
- * 描述: 公共Controller实现类
+ * 描述: 公共Controller实现类-Hibernate
  * </p>
  * <p>
  * 创建时间: 2019-11-15 09:45
