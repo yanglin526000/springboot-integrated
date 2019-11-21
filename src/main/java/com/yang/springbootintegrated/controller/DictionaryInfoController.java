@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yang.springbootintegrated.controller.common.BaseHIbernateController;
 import com.yang.springbootintegrated.pojo.DictionaryInfo;
-import com.yang.springbootintegrated.service.common.BaseService;
+import com.yang.springbootintegrated.service.common.BaseHibernateService;
 import com.yang.springbootintegrated.utils.ConstantUtil;
 import com.yang.springbootintegrated.utils.ResultMap;
 
@@ -37,7 +37,7 @@ import io.swagger.annotations.ApiOperation;
 public class DictionaryInfoController extends BaseHIbernateController<DictionaryInfo> {
 
     @Autowired
-    private BaseService<DictionaryInfo> baseService;
+    private BaseHibernateService<DictionaryInfo> baseHibernateService;
 
     /**
      * <p>
@@ -60,7 +60,7 @@ public class DictionaryInfoController extends BaseHIbernateController<Dictionary
         Map<String, Object> result = new HashMap<>(ConstantUtil.RESULT_MAP_INIT_COUNT);
         DictionaryInfo dictionaryInfo = new DictionaryInfo();
         dictionaryInfo.setCode(code);
-        result.put("data", baseService.listAccurate(dictionaryInfo).get("list"));
+        result.put("data", baseHibernateService.listAccurate(dictionaryInfo).get("list"));
         return ResultMap.state(result, HttpStatus.OK);
     }
 }

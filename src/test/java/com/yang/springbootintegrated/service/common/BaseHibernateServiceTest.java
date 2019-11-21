@@ -30,11 +30,11 @@ import io.swagger.annotations.ApiModel;
  * 
  * @author yanglin
  */
-public abstract class BaseServiceTest<T> extends SpringbootIntegratedApplicationTests {
+public abstract class BaseHibernateServiceTest<T> extends SpringbootIntegratedApplicationTests {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    private BaseService<T> baseService;
+    private BaseHibernateService<T> baseHibernateService;
 
     /**
      * <p>
@@ -66,7 +66,7 @@ public abstract class BaseServiceTest<T> extends SpringbootIntegratedApplication
         String modelName = dNew.getClass().getAnnotation(ApiModel.class).value();
         logger.info("测试公共日志");
         ParamUtil.randomObject(dNew);
-        T dNewd = baseService.save(dNew);
+        T dNewd = baseHibernateService.save(dNew);
         Assert.notNull(dNewd, "测试新增和修改");
         logger.info(modelName + "模块-新增和修改-测试通过");
         // 查询
@@ -74,12 +74,12 @@ public abstract class BaseServiceTest<T> extends SpringbootIntegratedApplication
                 .getActualTypeArguments()[0]).newInstance();
         Pageable pageable = PageRequest.of(Integer.parseInt(ConstantUtil.DEFAULT_PAGE_INDEX),
                 Integer.parseInt(ConstantUtil.DEFAULT_PAGE_SIZE));
-        Assert.notNull(baseService.list(dSelect, pageable), "测试模糊查询");
-        Assert.notNull(baseService.listAccurate(dSelect, pageable), "测试精确查询");
-        Assert.notNull(baseService.info(dNewd), "测试根据id查询");
+        Assert.notNull(baseHibernateService.list(dSelect, pageable), "测试模糊查询");
+        Assert.notNull(baseHibernateService.listAccurate(dSelect, pageable), "测试精确查询");
+        Assert.notNull(baseHibernateService.info(dNewd), "测试根据id查询");
         logger.info(modelName + "模块-查询-测试通过");
         // 假删除
-        T dDeleted = baseService.delete(dNewd);
+        T dDeleted = baseHibernateService.delete(dNewd);
         Assert.notNull(dDeleted, "测试假删除");
         logger.info(modelName + "模块-删除-测试通过");
     }

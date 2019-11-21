@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.yang.springbootintegrated.service.common.BaseService;
+import com.yang.springbootintegrated.service.common.BaseHibernateService;
 import com.yang.springbootintegrated.utils.ConstantUtil;
 import com.yang.springbootintegrated.utils.ParamUtil;
 import com.yang.springbootintegrated.utils.ResultMap;
@@ -36,7 +36,7 @@ import io.swagger.annotations.ApiOperation;
 public abstract class BaseHIbernateController<T> {
 
     @Autowired
-    private BaseService<T> baseService;
+    private BaseHibernateService<T> baseHibernateService;
 
     /**
      * <p>
@@ -72,7 +72,7 @@ public abstract class BaseHIbernateController<T> {
 //        } else {
 //            ParamUtil.putField(t, "updateUserId", userId);
 //        }
-        result.put("data", baseService.save(t));
+        result.put("data", baseHibernateService.save(t));
         return ResultMap.state(result, HttpStatus.OK);
     }
 
@@ -104,7 +104,7 @@ public abstract class BaseHIbernateController<T> {
 //        ParamUtil.putField(t, "updateUserId", userId);
         ParamUtil.putField(t, "id", id);
         Map<String, Object> result = new HashMap<>(ConstantUtil.RESULT_MAP_INIT_COUNT);
-        result.put("data", baseService.delete(t));
+        result.put("data", baseHibernateService.delete(t));
         return ResultMap.state(result, HttpStatus.OK);
     }
 
@@ -133,7 +133,7 @@ public abstract class BaseHIbernateController<T> {
                 .newInstance();
         ParamUtil.putField(t, "id", id);
         Map<String, Object> result = new HashMap<>(ConstantUtil.RESULT_MAP_INIT_COUNT);
-        result.put("data", baseService.info(t));
+        result.put("data", baseHibernateService.info(t));
         return ResultMap.state(result, HttpStatus.OK);
     }
 
@@ -163,7 +163,7 @@ public abstract class BaseHIbernateController<T> {
             @RequestParam(value = "page", required = false, defaultValue = ConstantUtil.DEFAULT_PAGE_INDEX) Integer page,
             @RequestParam(value = "size", required = false, defaultValue = ConstantUtil.DEFAULT_PAGE_SIZE) Integer size) {
         Map<String, Object> result = new HashMap<>(ConstantUtil.RESULT_MAP_INIT_COUNT);
-        result.put("data", baseService.list(t, PageRequest.of(page, size)));
+        result.put("data", baseHibernateService.list(t, PageRequest.of(page, size)));
         return ResultMap.state(result, HttpStatus.OK);
     }
 

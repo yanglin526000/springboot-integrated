@@ -15,7 +15,7 @@ import org.springframework.data.domain.Pageable;
  * @param <T> 标签
  * @author yanglin
  */
-public interface BaseService<T> {
+public interface BaseHibernateService<T> {
 
     /**
      * <p>

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yang.springbootintegrated.repository.common.BaseRepository;
-import com.yang.springbootintegrated.service.common.BaseService;
+import com.yang.springbootintegrated.service.common.BaseHibernateService;
 import com.yang.springbootintegrated.utils.ConstantUtil;
 import com.yang.springbootintegrated.utils.ParamUtil;
 
@@ -25,7 +25,7 @@ import com.yang.springbootintegrated.utils.ParamUtil;
  * @author yanglin
  */
 @Service
-public class BaseServiceImpl<T> implements BaseService<T> {
+public class BaseHibernateServiceImpl<T> implements BaseHibernateService<T> {
 
     @Autowired
     BaseRepository<T> baseRepository;

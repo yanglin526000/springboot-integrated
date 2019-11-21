@@ -3,7 +3,7 @@ package com.yang.springbootintegrated.service;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.yang.springbootintegrated.pojo.DictionaryInfo;
-import com.yang.springbootintegrated.service.common.BaseServiceTest;
+import com.yang.springbootintegrated.service.common.BaseHibernateServiceTest;
 
 /**
  * <p>
@@ -16,5 +16,5 @@ import com.yang.springbootintegrated.service.common.BaseServiceTest;
  * @author yanglin
  */
 @SpringBootTest
-public class DictionaryInfoServiceImplTest extends BaseServiceTest<DictionaryInfo> {
+public class DictionaryInfoServiceImplTest extends BaseHibernateServiceTest<DictionaryInfo> {
 }
