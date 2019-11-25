@@ -56,7 +56,7 @@ public abstract class BaseHIbernateController<T> {
      * @author yanglin
      */
     @ApiOperation(value = "保存接口，body参数中有id，是更新；否则是新增（自动生成）")
-    @RequestMapping(value = "/", method = { RequestMethod.POST, RequestMethod.PUT })
+    @RequestMapping(value = "", method = { RequestMethod.POST, RequestMethod.PUT })
     public Map<String, Object> save(@RequestBody T t)
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         Map<String, Object> result = new HashMap<>(ConstantUtil.RESULT_MAP_INIT_COUNT);
@@ -95,7 +95,7 @@ public abstract class BaseHIbernateController<T> {
     @ApiOperation(value = "根据id删除（自动生成）", httpMethod = "DELETE")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "自增主键", required = true, dataType = "String", paramType = "path") })
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public Map<String, Object> delete(@PathVariable Long id) throws InstantiationException, IllegalAccessException {
         T t = (T) ((Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0])
                 .newInstance();
@@ -127,7 +127,7 @@ public abstract class BaseHIbernateController<T> {
     @ApiOperation(value = "根据id对象信息（自动生成）", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "自增主键", required = true, dataType = "String", paramType = "path") })
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public Map<String, Object> info(@PathVariable Long id) throws InstantiationException, IllegalAccessException {
         T t = (T) ((Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0])
                 .newInstance();
@@ -158,7 +158,7 @@ public abstract class BaseHIbernateController<T> {
                     + ConstantUtil.DEFAULT_PAGE_INDEX, required = false, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "size", value = "每页显示数量，默认每页数量为"
                     + ConstantUtil.DEFAULT_PAGE_SIZE, required = false, dataType = "String", paramType = "query") })
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public Map<String, Object> list(T t,
             @RequestParam(value = "page", required = false, defaultValue = ConstantUtil.DEFAULT_PAGE_INDEX) Integer page,
             @RequestParam(value = "size", required = false, defaultValue = ConstantUtil.DEFAULT_PAGE_SIZE) Integer size) {

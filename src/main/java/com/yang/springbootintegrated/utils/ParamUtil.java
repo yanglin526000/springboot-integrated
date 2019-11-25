@@ -1,6 +1,7 @@
 package com.yang.springbootintegrated.utils;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -47,18 +48,25 @@ public class ParamUtil {
                 f.set(o, null);
             } else {
                 Object fv = null;
-                // 日期类型和其他常用类型的处理
-                if (Date.class.getName().equals(f.getType().getName())) {
-                    if (fieldValue instanceof Date) {
-                        fv = fieldValue;
-                    } else {
-                        fv = f.getType().getDeclaredConstructor(long.class)
-                                .newInstance(Long.parseLong(fieldValue.toString().trim()));
-                    }
+                // 传过来的值是对应实例
+                if (f.getType().isInstance(fieldValue)) {
+                    fv = fieldValue;
+                } else if (Date.class.getName().equals(f.getType().getName())) {
+                    // 日期类型和其他常用类型的处理
+                    fv = f.getType().getDeclaredConstructor(long.class)
+                            .newInstance(Long.parseLong(fieldValue.toString().trim()));
                 } else {
                     fv = f.getType().getDeclaredConstructor(String.class).newInstance(fieldValue.toString().trim());
                 }
-                f.set(o, fv);
+                if (ArrayList.class.equals(fieldValue.getClass())) {
+                    o.getClass()
+                            .getDeclaredMethod(
+                                    "set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1),
+                                    f.getType())
+                            .invoke(o, fv);
+                } else {
+                    f.set(o, fv);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
