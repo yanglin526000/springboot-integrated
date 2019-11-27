@@ -3,6 +3,13 @@ package com.yang.springbootintegrated.utils;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import com.alibaba.fastjson.JSONObject;
+import com.yang.springbootintegrated.pojo.DictionaryInfo;
 
 /**
  * <p>
@@ -117,6 +124,88 @@ public class ParamUtil {
                 }
             }
         }
+    }
+
+    /**
+     * <p>
+     * 描述: 处理列表的中的字典信息
+     * </p>
+     * <p>
+     * 创建时间: 2019-11-27 15:09
+     * </p>
+     * <p>
+     * 更新时间: 2019-11-27 15:09
+     * </p>
+     * <p>
+     * 更新者: yanglin
+     * </p>
+     * 
+     * @param list 列表
+     * @return List<Map<String, Object>>
+     * 
+     * @author yanglin
+     */
+    @SuppressWarnings("unchecked")
+    public static List<?> handleDictionaryInfo(List<?> list) {
+        // 值为空，不做任何操作
+        if (list == null) {
+            return null;
+        }
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Object l : list) {
+            Map<String, Object> ml = (Map<String, Object>) JSONObject.toJSON(l);
+            Map<String, Object> rh = new HashMap<>();
+            // 移除字典对象
+            Iterator<Map.Entry<String, Object>> it = ml.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry<String, Object> entry = it.next();
+                String key = entry.getKey();
+                if (key.endsWith("DictionaryInfo")) {
+                    rh.put(key, ml.get(key));
+                    it.remove();
+                }
+            }
+            // 增加字典名
+            for (String r : rh.keySet()) {
+                if (rh.get(r) != null) {
+                    ml.put(r.replaceAll("DictionaryInfo", "") + "Name",
+                            JSONObject.parseObject(rh.get(r).toString(), DictionaryInfo.class).getName());
+                } else {
+                    ml.put(r.replaceAll("DictionaryInfo", "") + "Name", null);
+                }
+            }
+            result.add(ml);
+        }
+        return result;
+    }
+
+    /**
+     * <p>
+     * 描述: 处理对象字典
+     * </p>
+     * <p>
+     * 创建时间: 2019-11-27 13:37
+     * </p>
+     * <p>
+     * 更新时间: 2019-11-27 13:37
+     * </p>
+     * <p>
+     * 更新者: yanglin
+     * </p>
+     * 
+     * @param o 处理对象
+     * @return Object
+     * 
+     * @author yanglin
+     */
+    public static Object handleDictionaryInfo(Object o) {
+        // 值为空，不做任何操作
+        if (o == null) {
+            return null;
+        }
+        List<Object> list = new ArrayList<>();
+        list.add(o);
+        return handleDictionaryInfo(list).get(0);
     }
 
 }

@@ -75,4 +75,15 @@ public class DictionaryInfo extends CommonPo {
     @Column(name = "second_code", columnDefinition = "VARCHAR(50) COMMENT '输入码二'")
     private String secondCode;
 
+    // 外键关联字典示例
+//    /**
+//     * @description 关联字典信息表-诊断流程状态：待初诊/待核发/待审核/待终审（多对一）
+//     * @field diagnoseStatusDictionaryInfo
+//     */
+//    @ApiModelProperty(hidden = true)
+//    @NotFound(action = NotFoundAction.IGNORE)
+//    @ManyToOne
+//    @JoinColumn(name = "dispatch_type", insertable = false, updatable = false)
+//    private DictionaryInfo diagnoseStatusDictionaryInfo;
+
 }

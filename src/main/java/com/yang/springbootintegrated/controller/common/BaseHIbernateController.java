@@ -2,6 +2,7 @@ package com.yang.springbootintegrated.controller.common;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,7 @@ public abstract class BaseHIbernateController<T> {
 //        } else {
 //            ParamUtil.putField(t, "updateUserId", userId);
 //        }
-        result.put("data", baseHibernateService.save(t));
+        result.put("data", ParamUtil.handleDictionaryInfo(baseHibernateService.save(t)));
         return ResultMap.state(result, HttpStatus.OK);
     }
 
@@ -104,7 +105,7 @@ public abstract class BaseHIbernateController<T> {
 //        ParamUtil.putField(t, "updateUserId", userId);
         ParamUtil.putField(t, "id", id);
         Map<String, Object> result = new HashMap<>(ConstantUtil.RESULT_MAP_INIT_COUNT);
-        result.put("data", baseHibernateService.delete(t));
+        result.put("data", ParamUtil.handleDictionaryInfo(baseHibernateService.delete(t)));
         return ResultMap.state(result, HttpStatus.OK);
     }
 
@@ -133,7 +134,7 @@ public abstract class BaseHIbernateController<T> {
                 .newInstance();
         ParamUtil.putField(t, "id", id);
         Map<String, Object> result = new HashMap<>(ConstantUtil.RESULT_MAP_INIT_COUNT);
-        result.put("data", baseHibernateService.info(t));
+        result.put("data", ParamUtil.handleDictionaryInfo(baseHibernateService.info(t)));
         return ResultMap.state(result, HttpStatus.OK);
     }
 
@@ -163,7 +164,9 @@ public abstract class BaseHIbernateController<T> {
             @RequestParam(value = "page", required = false, defaultValue = ConstantUtil.DEFAULT_PAGE_INDEX) Integer page,
             @RequestParam(value = "size", required = false, defaultValue = ConstantUtil.DEFAULT_PAGE_SIZE) Integer size) {
         Map<String, Object> result = new HashMap<>(ConstantUtil.RESULT_MAP_INIT_COUNT);
-        result.put("data", baseHibernateService.list(t, PageRequest.of(page, size)));
+        Map<String, Object> r = baseHibernateService.list(t, PageRequest.of(page, size));
+        result.put("data", ParamUtil.handleDictionaryInfo((List<?>) r.get("list")));
+        result.put("pageInfo", r.get("pageInfo"));
         return ResultMap.state(result, HttpStatus.OK);
     }
 
