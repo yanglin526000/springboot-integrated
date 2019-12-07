@@ -2,6 +2,7 @@ package com.yang.springbootintegrated;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  * <p>
@@ -13,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 
  * @author yanglin
  */
+@CrossOrigin(origins = "*")
 @SpringBootApplication
 public class SpringbootIntegratedApplication {
 
