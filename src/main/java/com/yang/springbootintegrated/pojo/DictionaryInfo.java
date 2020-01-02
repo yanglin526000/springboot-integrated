@@ -8,8 +8,6 @@ import com.yang.springbootintegrated.pojo.common.CommonPo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * <p>
@@ -22,8 +20,6 @@ import lombok.EqualsAndHashCode;
  * @author yanglin
  */
 @ApiModel(value = "字典信息")
-@Data
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "dictionary_info")
 @org.hibernate.annotations.Table(appliesTo = "dictionary_info", comment = "字典信息表")
@@ -74,6 +70,46 @@ public class DictionaryInfo extends CommonPo {
     @ApiModelProperty(value = "输入码二", example = "EFG")
     @Column(name = "second_code", columnDefinition = "VARCHAR(50) COMMENT '输入码二'")
     private String secondCode;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getOutCode() {
+        return outCode;
+    }
+
+    public void setOutCode(String outCode) {
+        this.outCode = outCode;
+    }
+
+    public String getFirstCode() {
+        return firstCode;
+    }
+
+    public void setFirstCode(String firstCode) {
+        this.firstCode = firstCode;
+    }
+
+    public String getSecondCode() {
+        return secondCode;
+    }
+
+    public void setSecondCode(String secondCode) {
+        this.secondCode = secondCode;
+    }
 
     // 外键关联字典示例
 //    /**
