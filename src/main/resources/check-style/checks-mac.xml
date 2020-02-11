@@ -16,8 +16,10 @@
  -->
 
 <module name = "Checker">
+    <!-- 文件编码 -->
     <property name="charset" value="UTF-8"/>
 
+    <!-- 安全提示级别 -->
     <property name="severity" value="warning"/>
 
     <property name="fileExtensions" value="java, properties, xml"/>
